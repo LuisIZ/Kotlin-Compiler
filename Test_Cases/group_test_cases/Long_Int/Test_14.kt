@@ -8,3 +8,9 @@ fun main() {
     val result = longProduct(a, b)
     println("Product of long types result: $result")
 }
+
+/* Notes:
+- Actual grammar does not support long types or suffix L
+- no _ in numbers supported
+- modify print stm because no $
+*/

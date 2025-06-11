@@ -12,5 +12,5 @@ fun main() {
 }
 
 /* Notes
-It seems that the semicolon (;) is optional in kotlin or only used to separate statements
+- It seems that the semicolon (;) is optional in kotlin or only used to separate statements
 */

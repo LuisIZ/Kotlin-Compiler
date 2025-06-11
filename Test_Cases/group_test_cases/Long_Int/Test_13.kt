@@ -8,3 +8,8 @@ fun main() {
     val result = longAdd(a, b)
     println("Add of long types result: $result")
 }
+
+/* Notes:
+- I thinl grammar does not support numbers with _
+- modify print stm because no $
+*/

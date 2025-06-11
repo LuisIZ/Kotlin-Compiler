@@ -106,6 +106,9 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         case Token::FALSE:
             outs << "TOKEN(FALSE)";
             break;
+        case Token::NUM:
+            outs << "TOKEN(NUM)";
+            break;
         case Token::END:
             outs << "TOKEN(END)";
             break;

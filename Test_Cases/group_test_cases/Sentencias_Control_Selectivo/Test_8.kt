@@ -12,3 +12,8 @@ fun main() {
     val result = combinatorics(a, b)
     println("$a C $b = $result")
 }
+
+/* Notes
+- I do not have the $ operator so I need to modify print message
+- The return accept CExp so no problem by havin an if stm o arithmetic exp... but ¿How will be in gencode...?
+*/

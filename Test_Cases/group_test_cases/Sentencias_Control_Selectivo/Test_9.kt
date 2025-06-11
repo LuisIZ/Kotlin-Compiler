@@ -24,3 +24,8 @@ fun main() {
         println("ID $idWanted not found")
     }
 }
+
+/* Notes:
+- Modify again print message because no $
+- no array or list operators, change the test case completily...
+*/

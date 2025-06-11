@@ -38,6 +38,7 @@ public:
         DIV,
         TRUE,
         FALSE,
+        NUM,
         END, // $ (end of program)
         ERR
     };

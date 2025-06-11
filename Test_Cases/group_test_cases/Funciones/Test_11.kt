@@ -11,3 +11,8 @@ fun main() {
     val result = isPrime(number)
     println("Is $number a prime number?: $result")
 }
+
+/* Notes:
+- The for stm in my grammar does not support / 2 
+- modify print stm because no $
+*/

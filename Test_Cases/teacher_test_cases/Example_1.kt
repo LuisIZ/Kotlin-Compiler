@@ -2,11 +2,15 @@ fun main() {
     var x: Int
     val y: Int
     val z: Long
-    // x = 1
+    x = 1
     y = 10
     z = 1000000
     x = 20
     println(x)
     println(z)
     println(y)
-}  
+} 
+
+/* Notes:
+- Maybe ask teacher for that warning message?
+*/

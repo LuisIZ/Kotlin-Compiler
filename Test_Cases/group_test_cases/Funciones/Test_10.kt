@@ -8,3 +8,8 @@ fun main() {
     val result = lcd(48, 18)
     println("Least Common Divisor (LCD) of $a and $b is $result") 
 }
+
+/* Notes:
+- Hmmm, ¿how will be to implement a recursive function in x86?
+- modify print stm because no $
+*/
