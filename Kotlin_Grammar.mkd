@@ -34,4 +34,39 @@ StmList ::= Stm [(; Stm)*]
 Stm ::= id = CExp
       | println(CExp)
       | print(CExp)
+      | if (CExp) {Body} [else {Body}]
+      | for (id in ForRangeExp) {Body}
+      | while (CExp) {Body}
+      | return CExp
+```
+
+```ebnf
+ForRangeExp ::= Num..Num
+ 
+CExp ::= Exp([ < | <= | == ] Exp)
+
+Exp ::= Term (( + | - ) Term)*
+
+Term ::= Factor (( * | / ) Factor)*
+
+Factor ::= id
+         | Num
+         | Bool
+         | (Exp)         
+```
+
+```ebnf
+Bool ::= true
+       | false
+
+Num ::= 0
+      | 1
+      | 2
+      | 3
+      | 4
+      | 5
+      | 6
+      | 7
+      | 8
+      | 9  
 ```
