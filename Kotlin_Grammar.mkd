@@ -1,0 +1,37 @@
+# Kotlin Grammar
+
+```ebnf
+Program ::= VarDecList FunDecList
+```
+
+```ebnf
+VarDecList ::= (VarDec_1)*
+
+FunDecList ::= (FunDec)+
+```
+
+```ebnf
+FunDecl ::= fun id ([ParamDecList]) [: Type] {Body}
+
+Body ::= VarDecList StmList
+```
+
+```ebnf
+ParamDecList ::= id: Type (, id: Type)*
+
+VarDec_1 ::= var id: Type [(; VarDec_2)*]
+           | val id: Type [(; VarDec_2)*]
+
+Type ::= id
+
+VarDec_2 ::= var id: Type
+           | val id: Type
+```
+
+```ebnf
+StmList ::= Stm [(; Stm)*]
+
+Stm ::= id = CExp
+      | println(CExp)
+      | print(CExp)
+```
