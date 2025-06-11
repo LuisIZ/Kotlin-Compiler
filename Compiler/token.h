@@ -8,7 +8,38 @@ class Token
 public:
     enum Type
     {
-        
+        FUN,
+        ID,
+        LP, // (
+        RP, // )
+        LB, // {
+        RB, // }
+        COMMA,
+        COLON, // :
+        VAR,
+        VAL,
+        SEMICOLON, // ;
+        ASSIGN,    // =
+        PRINT,
+        PRINTLN,
+        IF,
+        ELSE,
+        FOR,
+        IN,
+        WHILE,
+        RETURN,
+        RANGE, // ..
+        LT,    // <
+        LE,    // <=
+        EQ,    // ==
+        PLUS,
+        MINUS,
+        MUL,
+        DIV,
+        TRUE,
+        FALSE,
+        END, // $ (end of program)
+        ERR
     };
 
     Type type;
