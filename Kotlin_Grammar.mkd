@@ -2,71 +2,81 @@
 
 ```ebnf
 Program ::= VarDecList FunDecList
-```
 
-```ebnf
 VarDecList ::= (VarDec_1)*
-
 FunDecList ::= (FunDec)+
-```
 
-```ebnf
 FunDecl ::= fun id ([ParamDecList]) [: Type] {Body}
-
 Body ::= VarDecList StmList
-```
-
-```ebnf
 ParamDecList ::= id: Type (, id: Type)*
 
 VarDec_1 ::= var id: Type [(; VarDec_2)*]
            | val id: Type [(; VarDec_2)*]
-
 Type ::= id
-
 VarDec_2 ::= var id: Type
            | val id: Type
-```
 
-```ebnf
 StmList ::= Stm [(; Stm)*]
-
-Stm ::= id = CExp
+Stm ::= id AugAssign CExp
+      | id = CExp
       | println(CExp)
       | print(CExp)
       | if (CExp) {Body} [else {Body}]
       | for (id in ForRangeExp) {Body}
       | while (CExp) {Body}
       | return CExp
-```
 
-```ebnf
-ForRangeExp ::= Num..Num
- 
-CExp ::= Exp([ < | <= | == ] Exp)
+AugAssign ::= += 
+            | -= 
+            | *= 
+            | /= 
+            | %=
+ForRangeExp ::=  CExp..CExp [step CExp]
+CExp ::= LogicalExp ([ < | <= | >= | > | == | != ] LogicalExp)?
 
+LogicalExp ::= OrExp ((&& | ||) OrExp)*
+OrExp ::= XorExp (or XorExp)*
+XorExp ::= AndExp (xor AndExp)*
+AndExp ::= ShiftExp (and ShiftExp)*
+ShiftExp ::= Exp (( shl | shr | ushr ) Exp)*
 Exp ::= Term (( + | - ) Term)*
+Term ::= Factor (( * | / | % ) Factor)*
 
-Term ::= Factor (( * | / ) Factor)*
+PrefixOp ::= +
+           | -
+           | !
+           | ++
+           | --
+           | inv
+PostfixOp ::= ++
+            | --
 
 Factor ::= id
          | Num
          | Bool
-         | (Exp)         
-```
+         | (CExp)
+         | PrefixOp Factor
+         | Factor PostfixOp
+         | id([ArgList])
+         | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")"()"
 
-```ebnf
+ArgList ::= CExp (, CExp)*         
+
 Bool ::= true
        | false
 
-Num ::= 0
-      | 1
-      | 2
-      | 3
-      | 4
-      | 5
-      | 6
-      | 7
-      | 8
-      | 9  
+Num ::= Digit+ ([ u | U ] [ l | L ]? | [ l | L ] [ u | U ]?)
+
+Digit ::= 0
+        | 1
+        | 2
+        | 3
+        | 4
+        | 5
+        | 6
+        | 7
+        | 8
+        | 9  
 ```
+
+Note: id in rule Type could be "Byte", "Short", "Int", "Long", "UByte", "UShort",  "UInt" and "ULong" (at least for this project)
