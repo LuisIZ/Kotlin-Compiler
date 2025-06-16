@@ -28,6 +28,8 @@ Token *Scanner::nextToken()
             current++;
         token = new Token(Token::NUM, input, first, current - first);
     }
+
+    
 }
 
 void Scanner::reset()
@@ -35,6 +37,8 @@ void Scanner::reset()
     first = 0;
     current = 0;
 }
+
+Scanner::~Scanner() {}
 
 void test_scanner(Scanner *scanner)
 {

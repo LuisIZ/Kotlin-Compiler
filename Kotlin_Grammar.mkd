@@ -58,7 +58,7 @@ Factor ::= id
          | PrefixOp Factor
          | Factor PostfixOp
          | id([ArgList])
-         | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")"()"
+         | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
 
 ArgList ::= CExp (, CExp)*         
 
