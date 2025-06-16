@@ -213,6 +213,9 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         break;
 
     // new tokens for rule Factor
+    case Token::POINT:
+        outs << "TOKEN(POINT)";
+        break;
     case Token::TO_BYTE:
         outs << "TOKEN(TO_BYTE)";
         break;

@@ -19,4 +19,4 @@ public:
 
 void test_scanner(Scanner *scanner);
 
-#endif // SCANNER_H
+#endif

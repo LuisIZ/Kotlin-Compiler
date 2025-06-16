@@ -21,7 +21,7 @@ public:
         RB,    // }
 
         // new tokens for rule ParamDecList
-        COMMA,
+        COMMA, // ,
 
         // new tokens for rule VarDec_1
         VAR,
@@ -85,6 +85,10 @@ public:
         DIV,
         MOD,
 
+        /*
+        ! los unary add y minus no har problema en el scanner, se tendria que lidiar en el parser y ya no seria necesario estos tokens...
+        */
+
         // new tokens for rule PrefixOp
         UNARY_ADD,   // for example: +a
         UNARY_MINUS, // for example: -a
@@ -93,29 +97,34 @@ public:
         PRE_DEC,     // for example: --a
         INV,         // inv
 
+        /*
+        ! el ++ y el -- mejor no diferenciarlos como sufijo o prefijo, uno nomas :v
+        */
+
         // new tokens for rule PostfixOp
         POST_INC, // for example: a++
         POST_DEC, // for example: a--
 
         // new tokens for rule Factor
-        TO_BYTE,
-        TO_SHORT,
-        TO_INT,
-        TO_LONG,
-        TO_U_BYTE,
-        TO_U_SHORT,
-        TO_U_INT,
-        TO_U_LONG,
+        POINT,      // .
+        TO_BYTE,    // .toByte
+        TO_SHORT,   // .toShort
+        TO_INT,     // .toInt
+        TO_LONG,    // .toLong
+        TO_U_BYTE,  // .toUByte
+        TO_U_SHORT, // .toUShort
+        TO_U_INT,   // .toUInt
+        TO_U_LONG,  // .toULong
 
         // new tokens for rule Bool
         TRUE,
         FALSE,
 
         // new tokens for rule Num
-        SUFFIX_u,
-        SUFFIX_U,
-        SUFFIX_l,
-        SUFFIX_L,
+        SUFFIX_u, // u
+        SUFFIX_U, // U
+        SUFFIX_l, // l
+        SUFFIX_L, // L
 
         // new token for rule Digit
         NUM,
@@ -136,4 +145,4 @@ public:
     friend std::ostream &operator<<(std::ostream &outs, const Token *tok);
 };
 
-#endif // TOKEN_H
+#endif
