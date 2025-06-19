@@ -6,7 +6,7 @@ Program ::= VarDecList FunDecList
 VarDecList ::= (VarDec_1)*
 FunDecList ::= (FunDec)+
 
-FunDecl ::= fun id ([ParamDecList]) [: Type] {Body}
+FunDec ::= fun id ([ParamDecList]) [: Type] {Body}
 Body ::= VarDecList StmList
 ParamDecList ::= id: Type (, id: Type)*
 
@@ -48,15 +48,12 @@ PrefixOp ::= +
            | ++
            | --
            | inv
-PostfixOp ::= ++
-            | --
 
 Factor ::= id
          | Num
          | Bool
          | (CExp)
          | PrefixOp Factor
-         | Factor PostfixOp
          | id([ArgList])
          | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
 
