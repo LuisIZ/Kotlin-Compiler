@@ -28,11 +28,52 @@ Token *Scanner::nextToken()
         current++;
         while (current < input.length() && isdigit(input[current]))
             current++;
+
+        char nextChar = current < input.length() ? input[current] : '\0';
+        char nextNextChar = current + 1 < input.length() ? input[current + 1] : '\0';
+
         token = new Token(Token::NUM, input, first, current - first);
-        // ! aqui meter sufijos
+
+        if (nextChar == 'u' || nextChar == 'U')
+        {
+            token = new Token(nextChar == 'u' ? Token::SUFFIX_u : Token::SUFFIX_U);
+            current++;
+        }
+        else if (nextChar == 'l' || nextChar == 'L')
+        {
+            token = new Token(nextChar == 'l' ? Token::SUFFIX_l : Token::SUFFIX_L);
+            current++;
+        }
+        
+        if ((nextChar == 'u' || nextChar == 'U') && (nextNextChar == 'l' || nextNextChar == 'L'))
+        {
+            token = new Token(nextChar == 'u' ? Token::SUFFIX_u : Token::SUFFIX_U);
+            current++;
+            token = new Token(nextNextChar == 'l' ? Token::SUFFIX_l : Token::SUFFIX_L);
+            current++;
+        }
     }
 
-    else if (isalpha(c)) 
+    else if (c == '"')
+    {
+        current++;
+        first = current;
+
+        while (current < input.length() && input[current] != '"')
+            current++;
+
+        if (current < input.length())
+        {
+            current++;
+            token = new Token(Token::STRING, input, first, current - first);
+        }
+        else
+        {
+            token = new Token(Token::ERR, c);
+        }
+    }
+
+    else if (isalpha(c))
     {
         current++;
         while (current < input.length() && isalnum(input[current]))
@@ -86,7 +127,7 @@ Token *Scanner::nextToken()
         }
         else if (word == "return")
         {
-            token == new Token(Token::RETURN, word, 0, word.length());
+            token = new Token(Token::RETURN, word, 0, word.length());
         }
 
         // new scanning tokens in rule ForRangeExp
@@ -134,7 +175,7 @@ Token *Scanner::nextToken()
         }
 
         // new scanning tokens for rule Factor
-        else if (word == "toByte") 
+        else if (word == "toByte")
         {
             token = new Token(Token::TO_BYTE, word, 0, word.length());
         }
@@ -150,7 +191,7 @@ Token *Scanner::nextToken()
         {
             token = new Token(Token::TO_LONG, word, 0, word.length());
         }
-        else if (word == "toUByte") 
+        else if (word == "toUByte")
         {
             token = new Token(Token::TO_U_BYTE, word, 0, word.length());
         }
@@ -186,157 +227,177 @@ Token *Scanner::nextToken()
 
     else if (strchr("():{},;+-*/%=.<>!&|", c))
     {
-        switch(c)
+        switch (c)
         {
-            case '(': 
-                token = new Token(Token::LP, c); 
-                break;
-            case ')':
-                token = new Token(Token::RP, c);
-                break;
-            case ':':
-                token = new Token(Token::COLON, c);
-                break;
-            case '{':
-                token = new Token(Token::LB, c);
-                break;
-            case '}':
-                token = new Token(Token::RB, c);
-                break;
-            case ',':
-                token = new Token(Token::COMMA, c);
-                break;
-            case ';':
-                token = new Token(Token::SEMICOLON, c);
-                break;
-            case '+':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::AA_PLUS, "+=", 0, 2);
-                    current++;
-                }
-                else 
-                {
-                    token = new Token(Token::PLUS, c);
-                }
-                break;
-            case '-':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::AA_MINUS, "-=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::MINUS, c);
-                }
-                break;
-            case '*':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::AA_MUL, "*=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::MUL, c);
-                }
-                break;
-            case '/':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::AA_DIV, "/=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::DIV, c);
-                }
-                break;
-            case '%':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::AA_MOD, "%=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::MOD, c);
-                }
-                break;
-            case '=':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::EQ, "==", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::ASSIGN, c);
-                }
-                break;
-            case '.':
-                if (current + 1 < input.length() && input[current + 1] == '.')
-                {
-                    token = new Token(Token::RANGE, "..", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::POINT, c);
-                }
-                break;
-            case '<':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::LE, "<=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::LT, c);
-                }
-                break;
-            case '>':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::GE, ">=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::GT, c);
-                }
-                break;
-            case '!':
-                if (current + 1 < input.length() && input[current + 1] == '=')
-                {
-                    token = new Token(Token::DIFF, "!=", 0, 2);
-                    current++;
-                }
-                else
-                {
-                    token = new Token(Token::NOT, c);
-                }
-                break;
-            case '&': // ? Is it okay this
-                if (current + 1 < input.length() && input[current + 1] == '&')
-                {
-                    token = new Token(Token::LOG_AND, "&&", 0, 2);
-                    current++;
-                }
-                break;
-            case '|': // ? Is it okay this
-                if (current + 1 < input.length() && input[current + 1] == '|')
-                {
-                    token = new Token(Token::LOG_OR, "||", 0, 2);
-                    current++;
-                }
-                break;
-
-            default:
+        case '(':
+            token = new Token(Token::LP, c);
+            break;
+        case ')':
+            token = new Token(Token::RP, c);
+            break;
+        case ':':
+            token = new Token(Token::COLON, c);
+            break;
+        case '{':
+            token = new Token(Token::LB, c);
+            break;
+        case '}':
+            token = new Token(Token::RB, c);
+            break;
+        case ',':
+            token = new Token(Token::COMMA, c);
+            break;
+        case ';':
+            token = new Token(Token::SEMICOLON, c);
+            break;
+        case '+':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::AA_PLUS, "+=", 0, 2);
+                current++;
+            }
+            else if (current + 1 < input.length() && input[current + 1] == '+')
+            {
+                token = new Token(Token::PRE_INC, "++", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::PLUS, c);
+            }
+            break;
+        case '-':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::AA_MINUS, "-=", 0, 2);
+                current++;
+            }
+            else if (current + 1 < input.length() && input[current + 1] == '-')
+            {
+                token = new Token(Token::PRE_DEC, "--", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::MINUS, c);
+            }
+            break;
+        case '*':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::AA_MUL, "*=", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::MUL, c);
+            }
+            break;
+        case '/':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::AA_DIV, "/=", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::DIV, c);
+            }
+            break;
+        case '%':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::AA_MOD, "%=", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::MOD, c);
+            }
+            break;
+        case '=':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::EQ, "==", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::ASSIGN, c);
+            }
+            break;
+        case '.':
+            if (current + 1 < input.length() && input[current + 1] == '.')
+            {
+                token = new Token(Token::RANGE, "..", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::POINT, c);
+            }
+            break;
+        case '<':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::LE, "<=", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::LT, c);
+            }
+            break;
+        case '>':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::GE, ">=", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::GT, c);
+            }
+            break;
+        case '!':
+            if (current + 1 < input.length() && input[current + 1] == '=')
+            {
+                token = new Token(Token::DIFF, "!=", 0, 2);
+                current++;
+            }
+            else
+            {
+                token = new Token(Token::NOT, c);
+            }
+            break;
+        case '&':
+            if (current + 1 < input.length() && input[current + 1] == '&')
+            {
+                token = new Token(Token::LOG_AND, "&&", 0, 2);
+                current++;
+            }
+            else
+            {
                 cout << "Error in scanner: unknown token" << endl;
                 token = new Token(Token::ERR, c);
+            }
+            break;
+        case '|':
+            if (current + 1 < input.length() && input[current + 1] == '|')
+            {
+                token = new Token(Token::LOG_OR, "||", 0, 2);
+                current++;
+            }
+            else
+            {
+                cout << "Error in scanner: unknown token" << endl;
+                token = new Token(Token::ERR, c);
+            }
+            break;
+
+        default:
+            cout << "Error in scanner: unknown token" << endl;
+            token = new Token(Token::ERR, c);
         }
         current++;
     }

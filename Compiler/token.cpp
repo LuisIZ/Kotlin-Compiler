@@ -185,12 +185,6 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         break;
 
     // new tokens for rule PrefixOp
-    case Token::UNARY_ADD:
-        outs << "TOKEN(UNARY_ADD)";
-        break;
-    case Token::UNARY_MINUS:
-        outs << "TOKEN(UNARY_MINUS)";
-        break;
     case Token::NOT:
         outs << "TOKEN(NOT)";
         break;
@@ -202,14 +196,6 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         break;
     case Token::INV:
         outs << "TOKEN(INV)";
-        break;
-
-    // new tokens for rule PostfixOp
-    case Token::POST_INC:
-        outs << "TOKEN(POST_INC)";
-        break;
-    case Token::POST_DEC:
-        outs << "TOKEN(POST_DEC)";
         break;
 
     // new tokens for rule Factor
@@ -275,8 +261,11 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
     case Token::ERR:
         outs << "TOKEN(ERR)";
         break;
+    case Token::STRING:
+        outs << "TOKEN(STRING)";
+        break;
 
-    default:
+        default:
         outs << "TOKEN(UNKNOWN)";
         break;
     }

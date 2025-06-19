@@ -11,7 +11,3 @@ fun main() {
     val found = searchElement(x, y, z, target)
     print("Is "); print(target); print(" in variables? "); println(found)
 }
-
-/* Notes
-- How to return a value in the same line as the if statement without brackets?
-*/

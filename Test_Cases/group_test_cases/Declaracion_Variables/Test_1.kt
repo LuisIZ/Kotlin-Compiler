@@ -10,7 +10,3 @@ fun main() {
     val active = true
     showProfile(name, age, active)
 }
-
-/* Notes
-- It seems that the semicolon (;) is optional in kotlin or only used to separate statements
-*/

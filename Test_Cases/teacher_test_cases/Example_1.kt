@@ -10,7 +10,3 @@ fun main() {
     println(z)
     println(y)
 } 
-
-/* Notes:
-- Maybe ask teacher for that warning message?
-*/

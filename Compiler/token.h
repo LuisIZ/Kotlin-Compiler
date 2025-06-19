@@ -86,24 +86,14 @@ public:
         MOD,
 
         /*
-        ! los unary add y minus no har problema en el scanner, se tendria que lidiar en el parser y ya no seria necesario estos tokens...
+        TODO: implement unary add and unary minus in parser using the token add and minus
         */
 
         // new tokens for rule PrefixOp
-        UNARY_ADD,   // for example: +a
-        UNARY_MINUS, // for example: -a
         NOT,         // !
         PRE_INC,     // for example: ++a
         PRE_DEC,     // for example: --a
         INV,         // inv
-
-        /*
-        ! el ++ y el -- mejor no diferenciarlos como sufijo o prefijo, uno nomas :v
-        */
-
-        // new tokens for rule PostfixOp
-        POST_INC, // for example: a++
-        POST_DEC, // for example: a--
 
         // new tokens for rule Factor
         POINT,      // .
@@ -131,7 +121,8 @@ public:
 
         // new extra tokens (outside grammar)
         END, // $ (end of program)
-        ERR  // error (for debugging)
+        ERR,  // error (for debugging)
+        STRING // deal with strings (e.g. printing messages)
     };
 
     Type type;
