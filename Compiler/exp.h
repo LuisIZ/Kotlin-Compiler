@@ -136,7 +136,7 @@ public:
 class BoolExp : public Exp
 {
 public:
-    int value;
+    bool value;
     BoolExp(bool v);
     int accept(Visitor *visitor);
     ~BoolExp();
@@ -159,7 +159,7 @@ class PrefixExp : public Exp
 public:
     Exp *right;
     PrefixOp op;
-    PrefixExp(Exp *r, BinaryOp op);
+    PrefixExp(Exp *r, PrefixOp op);
     int accept(Visitor *visitor);
     ~PrefixExp();
 };
@@ -259,8 +259,8 @@ class IfStatement : public Stm
 public:
     Exp *condition;
     Body *then;
-    Body *els;
-    IfStatement(Exp *condition, Body *then, Body *els);
+    Body *els; // ! is optional
+    IfStatement(Exp *condition, Body *then, Body *els = nullptr);
     int accept(Visitor *visitor);
     ~IfStatement();
 };
@@ -292,7 +292,7 @@ public:
 class ReturnStatement : public Stm
 {
 public:
-    Exp *e;
+    Exp *e; // ? Should I change it to nullptr because a function could return nothing
     ReturnStatement() {};
     ~ReturnStatement() {};
     int accept(Visitor *visitor);
