@@ -46,22 +46,158 @@ enum BinaryOp
     MOD_OP
 };
 
+// * PrefixOp ::= + | - | ! | ++ | -- | inv
 enum PrefixOp
 {
-    // ? how do I implement + and -
-    // * PrefixOp ::= + | - | ! | ++ | -- | inv 
+    POS_OP, // +1
+    NEG_OP, // -1
     NOT_OP,
     PRE_INC_OP,
     PRE_DEC_OP,
     INV_OP
 };
 
+// * AugAssign ::= += | -= | *= | /= | %=
+enum AugmentedOp
+{
+    AA_PLUS_OP,
+    AA_MINUS_OP,
+    AA_MUL_OP,
+    AA_DIV_OP,
+    AA_MOD_OP
+};
+
+// * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+enum ConversionTypeFun
+{
+    TO_BYTE_FUN,
+    TO_SHORT_FUN,
+    TO_INT_FUN,
+    TO_LONG_FUN,
+    TO_U_BYTE_FUN,
+    TO_U_SHORT_FUN,
+    TO_U_INT_FUN,
+    TO_U_LONG_FUN
+};
+
+/*
+ * CExp ::= LogicalExp ([ < | <= | >= | > | == | != ] LogicalExp)?
+ * LogicalExp ::= OrExp ((&& | ||) OrExp)*
+ * OrExp ::= XorExp (or XorExp)*
+ * XorExp ::= AndExp (xor AndExp)*
+ * AndExp ::= ShiftExp (and ShiftExp)*
+ * ShiftExp ::= Exp (( shl | shr | ushr ) Exp)*
+ * Exp ::= Term (( + | - ) Term)*
+ * Term ::= Factor (( * | / | % ) Factor)*
+ */
 class Exp
 {
 public:
     virtual int accept(Visitor *visitor) = 0;
     virtual ~Exp() = 0;
-    static string binopToChar(BinaryOp op);
+    static string binOpToString(BinaryOp op);
+    static string prefixOpToString(PrefixOp op);
+    static string augOpToString(AugmentedOp op);
+};
+
+// * ForRangeExp ::=  CExp..CExp [step CExp]
+class ForRangeExp
+{
+public:
+    Exp *start;
+    Exp *end;
+    Exp *step;                                      // ! optional
+    ForRangeExp(Exp *s, Exp *e, Exp *st = nullptr); // ! nullptr because is optional
+    int accept(Visitor *visitor);
+    ~ForRangeExp();
+};
+
+// * Factor ::= id
+class IdentifierExp : public Exp
+{
+public:
+    std::string name;
+    IdentifierExp(const std::string &n);
+    int accept(Visitor *visitor);
+    ~IdentifierExp();
+};
+
+// * Factor ::= Num
+class NumberExp : public Exp
+{
+public:
+    int value;
+    NumberExp(int v);
+    int accept(Visitor *visitor);
+    ~NumberExp();
+};
+
+// * Factor ::= Bool
+class BoolExp : public Exp
+{
+public:
+    int value;
+    BoolExp(bool v);
+    int accept(Visitor *visitor);
+    ~BoolExp();
+};
+
+// * Factor ::= (CExp)
+class BinaryExp : public Exp
+{
+public:
+    Exp *left, *right;
+    BinaryOp op;
+    BinaryExp(Exp *l, Exp *r, BinaryOp op);
+    int accept(Visitor *visitor);
+    ~BinaryExp();
+};
+
+// * Factor ::= PrefixOp Factor
+class PrefixExp : public Exp
+{
+public:
+    Exp *right;
+    PrefixOp op;
+    PrefixExp(Exp *r, BinaryOp op);
+    int accept(Visitor *visitor);
+    ~PrefixExp();
+};
+
+// * Factor ::= id([ArgList])
+class FCallExp : public Exp
+{
+public:
+    // * ArgList ::= CExp (, CExp)*
+    string id;
+    list<Exp *> arglist;
+
+    FCallExp() {};
+    ~FCallExp() {};
+    int accept(Visitor *visitor);
+};
+
+// * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+class ConversionExp : public Exp
+{
+public:
+    string id;
+    ConversionTypeFun convType;
+    ConversionExp(string id, ConversionTypeFun convType);
+    int accept(Visitor *visitor);
+    ~ConversionExp();
+};
+
+///////////////////////////////////////////////////////////////////////////////////
+
+// TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
+class StringExp : public Exp
+{
+public:
+    string value;
+    StringExp(string v);
+    int accept(Visitor *visitor);
+    ~StringExp();
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -75,12 +211,13 @@ public:
 };
 
 // * Stm ::= id AugAssign CExp
-class AugmentedAssignStatement : public Stm // ? Is it necessary or I could only use AssignStatement
+class AugmentedAssignStatement : public Stm
 {
 public:
     std::string id;
     Exp *rhs;
-    AugmentedAssignStatement(std::string id, Exp *e);
+    AugmentedOp op;
+    AugmentedAssignStatement(std::string id, AugmentedOp op, Exp *rhs);
     int accept(Visitor *visitor);
     ~AugmentedAssignStatement();
 };
@@ -128,8 +265,17 @@ public:
     ~IfStatement();
 };
 
-// ? How could I implement the for stm taking into account ForRangeExp ::=  CExp..CExp [step CExp]
 // * Stm ::= for (id in ForRangeExp) {Body}
+class ForStatement : public Stm
+{
+public:
+    string id;
+    ForRangeExp *range;
+    Body *body;
+    ForStatement(string id, ForRangeExp *r, Body *b);
+    int accept(Visitor *visitor);
+    ~ForStatement();
+};
 
 // * Stm ::= while (CExp) {Body}
 class WhileStatement : public Stm
@@ -165,11 +311,8 @@ public:
     ~StatementList();
 };
 
-// ? Is VarDec_2 ::= var id: Type | val id : Type not necessary to create a class
-
-// ? Is Type ::= id not necessary to create a class
-
 // * VarDec_1 ::= var id: Type [(; VarDec_2)*] | | val id: Type [(; VarDec_2)*]
+// * VarDec_2 ::= var id: Type | val id : Type not necessary to create a class
 class VarDec
 {
 public:
@@ -179,8 +322,6 @@ public:
     int accept(Visitor *visitor);
     ~VarDec();
 };
-
-// ? Is ParamDecList ::= id: Type (, id: Type)* not necessary to create a class
 
 // * Body ::= VarDecList StmList
 class Body
@@ -199,8 +340,11 @@ class FunDec
 public:
     string id;
     string type;
+
+    // * ParamDecList ::= id: Type (, id: Type)* not necessary to create a class
     vector<string> params;
     list<string> params_types;
+
     Body *b;
     FunDec() {};
     ~FunDec() {};
