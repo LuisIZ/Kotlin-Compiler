@@ -98,6 +98,7 @@ public:
     static string binOpToString(BinaryOp op);
     static string prefixOpToString(PrefixOp op);
     static string augOpToString(AugmentedOp op);
+    static string convFunToString(ConversionTypeFun op); // ! I need to convert also the functions...
 };
 
 // * ForRangeExp ::=  CExp..CExp [step CExp]
@@ -202,7 +203,6 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-// * Stm ::=
 class Stm
 {
 public:
@@ -384,7 +384,7 @@ public:
     FunDecList *fundecs;
     Program() {};
     ~Program() {};
-    int accept(Visitor *visitor)
+    int accept(Visitor *visitor);
 };
 
 #endif
