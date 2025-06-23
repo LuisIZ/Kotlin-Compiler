@@ -278,7 +278,7 @@ AssignStatement::~AssignStatement()
 }
 
 // * Stm ::= println(CExp)
-PrintLnStatement::PrintLnStatement(Exp* e) : e(e) {}
+PrintLnStatement::PrintLnStatement(Exp *e) : e(e) {}
 PrintLnStatement::~PrintLnStatement()
 {
     delete e;
@@ -322,7 +322,8 @@ WhileStatement::~WhileStatement()
 
 // * StmList ::= Stm [(; Stm)*]
 StatementList::StatementList() : stms() {}
-void StatementList::add(Stm *s) {
+void StatementList::add(Stm *s)
+{
     stms.push_back(s);
 }
 StatementList::~StatementList()
