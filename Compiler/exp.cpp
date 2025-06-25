@@ -211,15 +211,6 @@ string Exp::convFunToString(ConversionTypeFun op)
     return c;
 }
 
-// * ForRangeExp ::=  CExp..CExp [step CExp]
-ForRangeExp::ForRangeExp(Exp *s, Exp *e, Exp *st = nullptr) : start(s), end(e), step(st) {}
-ForRangeExp::~ForRangeExp()
-{
-    delete start;
-    delete end;
-    delete step;
-}
-
 // * Factor ::= id
 IdentifierExp::IdentifierExp(const std::string &n) : name(n) {}
 IdentifierExp::~IdentifierExp() {}
@@ -300,12 +291,14 @@ IfStatement::~IfStatement()
     delete els;
 }
 
-// * Stm ::= for (id in ForRangeExp) {Body}
-ForStatement::ForStatement(string id, ForRangeExp *r, Body *b) : id(id), range(r), body(b) {}
+// * Stm ::= for (id in CExp..CExp [step CExp]) {Body}
+ForStatement::ForStatement(string id, Body *b, Exp *s, Exp *e, Exp *st = nullptr) : id(id), body(b), start(s), end(e), step(st) {}
 ForStatement::~ForStatement()
 {
-    delete range;
     delete body;
+    delete start;
+    delete end;
+    delete step;
 }
 
 // * Stm ::= while (CExp) {Body}

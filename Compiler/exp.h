@@ -101,18 +101,6 @@ public:
     static string convFunToString(ConversionTypeFun op); // ! I need to convert also the functions...
 };
 
-// * ForRangeExp ::=  CExp..CExp [step CExp]
-class ForRangeExp
-{
-public:
-    Exp *start;
-    Exp *end;
-    Exp *step;                                      // ! optional
-    ForRangeExp(Exp *s, Exp *e, Exp *st = nullptr); // ! nullptr because is optional
-    int accept(Visitor *visitor);
-    ~ForRangeExp();
-};
-
 // * Factor ::= id
 class IdentifierExp : public Exp
 {
@@ -265,14 +253,18 @@ public:
     ~IfStatement();
 };
 
-// * Stm ::= for (id in ForRangeExp) {Body}
+// * Stm ::= for (id in CExp..CExp [step CExp]) {Body}
 class ForStatement : public Stm
 {
 public:
     string id;
-    ForRangeExp *range;
     Body *body;
-    ForStatement(string id, ForRangeExp *r, Body *b);
+
+    Exp *start;
+    Exp *end;
+    Exp *step;
+
+    ForStatement(string id, Body *b, Exp *s, Exp *e, Exp *st = nullptr);
     int accept(Visitor *visitor);
     ~ForStatement();
 };

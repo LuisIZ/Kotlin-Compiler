@@ -2,8 +2,12 @@
 #define VISITOR_H
 #include "exp.h"
 #include <list>
+#include <vector>
+#include <unordered_map>
+#include <string>
 
-class ForRangeExp;
+using namespace std;
+
 class IdentifierExp;
 class NumberExp;
 class BoolExp;
@@ -37,7 +41,6 @@ class Program;
 class Visitor
 {
 public:
-    virtual int visit(ForRangeExp *exp) = 0;
     virtual int visit(IdentifierExp *exp) = 0;
     virtual int visit(NumberExp *exp) = 0;
     virtual int visit(BoolExp *exp) = 0;
@@ -66,17 +69,31 @@ public:
     virtual void visit(FunDec *f) = 0;
     virtual void visit(FunDecList *f) = 0;
     virtual void visit(VarDecList *stm) = 0;
-    // ? We do not put visit(Program) because we are going to always visit it
+    virtual void visit(Program *p) = 0;
 };
 
-class PrintVisitor : public Visitor
+class GenCodeVisitor : public Visitor
 {
+private:
+    std::ostream &out; // ? Is this just for print the gencode, I do not understand
+
 public:
-    void print(Program *program);
+    GenCodeVisitor(std::ostream &out) : out(out) {}
+    void generate(Program *program);
+
+    unordered_map<string, int> memory;
+    unordered_map<string, bool> globalMemory;
+
+    int offset = -8;
+
+    // ? Should we do the same for ForStatement
+    int countLabel = 0; // ! for nested WhileStatement and IfStatement
+
+    bool enviromentFunction = false; // ? I do not understand what it is used for...
+    string funtionName;
 
     ///////////////////////////////////////////////////////////////////////////////////
 
-    int visit(ForRangeExp *exp) override;
     int visit(IdentifierExp *exp) override;
     int visit(NumberExp *exp) override;
     int visit(BoolExp *exp) override;
@@ -105,6 +122,7 @@ public:
     void visit(FunDec *f) override;
     void visit(FunDecList *f) override;
     void visit(VarDecList *stm) override;
+    void visit(Program *p) override;
 };
 
 #endif

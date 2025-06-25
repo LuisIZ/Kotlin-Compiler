@@ -42,13 +42,11 @@ public:
         IF,
         ELSE,
         FOR,
+        RANGE, // ..
+        STEP,
         IN,
         WHILE,
         RETURN,
-
-        // new tokens for rule ForRangeExp
-        RANGE, // ..
-        STEP,
 
         // new tokens for rule CExp
         LT,   // <
@@ -90,10 +88,10 @@ public:
         */
 
         // new tokens for rule PrefixOp
-        NOT,         // !
-        PRE_INC,     // for example: ++a
-        PRE_DEC,     // for example: --a
-        INV,         // inv
+        NOT,     // !
+        PRE_INC, // for example: ++a
+        PRE_DEC, // for example: --a
+        INV,     // inv
 
         // new tokens for rule Factor
         POINT,      // .
@@ -120,8 +118,8 @@ public:
         NUM,
 
         // new extra tokens (outside grammar)
-        END, // $ (end of program)
-        ERR,  // error (for debugging)
+        END,   // $ (end of program)
+        ERR,   // error (for debugging)
         STRING // deal with strings (e.g. printing messages)
     };
 

@@ -93,6 +93,12 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
     case Token::FOR:
         outs << "TOKEN(FOR)";
         break;
+    case Token::RANGE:
+        outs << "TOKEN(RANGE)";
+        break;
+    case Token::STEP:
+        outs << "TOKEN(STEP)";
+        break;
     case Token::IN:
         outs << "TOKEN(IN)";
         break;
@@ -101,15 +107,7 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         break;
     case Token::RETURN:
         outs << "TOKEN(RETURN)";
-        break;
-
-    // new tokens for rule ForRangeExp
-    case Token::RANGE:
-        outs << "TOKEN(RANGE)";
-        break;
-    case Token::STEP:
-        outs << "TOKEN(STEP)";
-        break;
+        break;    
 
     // new tokens for rule CExp
     case Token::LT:

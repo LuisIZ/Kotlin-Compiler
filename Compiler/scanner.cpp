@@ -117,6 +117,10 @@ Token *Scanner::nextToken()
         {
             token = new Token(Token::FOR, word, 0, word.length());
         }
+        else if (word == "step")
+        {
+            token = new Token(Token::STEP, word, 0, word.length());
+        }
         else if (word == "in")
         {
             token = new Token(Token::IN, word, 0, word.length());
@@ -128,12 +132,6 @@ Token *Scanner::nextToken()
         else if (word == "return")
         {
             token = new Token(Token::RETURN, word, 0, word.length());
-        }
-
-        // new scanning tokens in rule ForRangeExp
-        else if (word == "step")
-        {
-            token = new Token(Token::STEP, word, 0, word.length());
         }
 
         // new scanning token in rule OrExp

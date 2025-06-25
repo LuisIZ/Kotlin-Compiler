@@ -6,11 +6,6 @@ using namespace std;
 
 // new -------------------------------- Accept Visitors ------------------------------
 
-int ForRangeExp::accept(Visitor *visitor)
-{
-    return visitor->visit(this); // ? wait, Is this okay? because ForRangeExp does not a value exactly... I think is a stm but no sure
-}
-
 int IdentifierExp::accept(Visitor *visitor)
 {
     return visitor->visit(this);
@@ -139,5 +134,11 @@ int VarDecList::accept(Visitor *visitor)
     return 0;
 }
 
-// new -------------------------------- Print Visitors ------------------------------
+int Program::accept(Visitor *visitor)
+{
+    visitor->visit(this);
+    return 0;
+}
+
+// new -------------------------------- GenCode Visitors ------------------------------
 
