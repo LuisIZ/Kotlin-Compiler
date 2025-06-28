@@ -284,7 +284,7 @@ PrintStatement::~PrintStatement()
 }
 
 // * Stm ::= if (CExp) {Body} [else {Body}]
-IfStatement::IfStatement(Exp *condition, Body *then, Body *els = nullptr) : condition(condition), then(then), els(els) {}
+IfStatement::IfStatement(Exp *condition, Body *then, Body *els) : condition(condition), then(then), els(els) {}
 IfStatement::~IfStatement()
 {
     delete condition;
@@ -293,7 +293,7 @@ IfStatement::~IfStatement()
 }
 
 // * Stm ::= for (id in CExp..CExp [step CExp]) {Body}
-ForStatement::ForStatement(string id, Body *b, Exp *s, Exp *e, Exp *st = nullptr) : id(id), body(b), start(s), end(e), step(st) {}
+ForStatement::ForStatement(string id, Body *b, Exp *s, Exp *e, Exp *st) : id(id), body(b), start(s), end(e), step(st) {}
 ForStatement::~ForStatement()
 {
     delete body;

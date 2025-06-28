@@ -1,12 +1,11 @@
+fun add(a: Int, b: Int): Int {
+    return a + b
+}
+
 fun main() {
     var x: Int
-    val y: Int
-    val z: Long
+    var y: Int
     x = 1
-    y = 10
-    z = 1000000
-    x = 20
-    println(x)
-    println(z)
-    println(y)
-} 
+    y = 20
+    println(add(x, y))
+}

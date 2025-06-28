@@ -296,17 +296,30 @@ StatementList *Parser::parseStatementList()
     }
 
     // * ... [(; Stm)*] ...
-    while (match(Token::SEMICOLON))
+    while (true) // ! multiple stmts without semicolon
     {
-        stmt = parseStatement();
-
-        if (!stmt)
+        // ! verify if a stmt is beginning...
+        if (current->type == Token::ID || current->type == Token::PRINTLN ||
+            current->type == Token::PRINT || current->type == Token::IF ||
+            current->type == Token::FOR || current->type == Token::WHILE ||
+            current->type == Token::RETURN)
         {
-            cout << "Error: expected a stmt after ';'" << endl;
-            exit(1);
+            // ! optional to consume this token...
+            match(Token::SEMICOLON);
+
+            stmt = parseStatement();
+            if (!stmt)
+            {
+                break;
+            }
+            sl->add(stmt);
         }
-        sl->add(stmt);
+        else
+        {
+            break;
+        }
     }
+
     return sl;
 }
 
@@ -845,7 +858,7 @@ Exp *Parser::parseFactor()
 
         // ! read suffix
         bool seenU = false, seenL = false;
-        
+
         // ! check cases like only u or U and only l or L
         if (check(Token::SUFFIX_u) || check(Token::SUFFIX_U))
         {
@@ -862,16 +875,16 @@ Exp *Parser::parseFactor()
         if (!seenL && (check(Token::SUFFIX_l)) || check(Token::SUFFIX_L))
         {
             seenL = true;
-            advance;
+            advance();
         }
         if (!seenU && (check(Token::SUFFIX_u)) || check(Token::SUFFIX_U))
         {
             seenU = true;
-            advance;
+            advance();
         }
 
         numType type;
-        
+
         // ! classify the type
         if (!seenU && !seenL)
         {
