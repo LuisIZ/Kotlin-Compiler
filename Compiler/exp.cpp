@@ -215,8 +215,9 @@ string Exp::convFunToString(ConversionTypeFun op)
 IdentifierExp::IdentifierExp(const std::string &n) : name(n) {}
 IdentifierExp::~IdentifierExp() {}
 
+// TODO: ask professor...
 // * Factor ::= Num
-NumberExp::NumberExp(int v) : value(v) {}
+NumberExp::NumberExp(int v, numType t) : value(v), type(t) {} // ! I need to recognize somehow the type for the codegen...
 NumberExp::~NumberExp() {}
 
 // * Factor ::= Bool

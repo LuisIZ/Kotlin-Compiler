@@ -80,6 +80,15 @@ enum ConversionTypeFun
     TO_U_LONG_FUN
 };
 
+// * Num ::= Digit+ ([ u | U ] [ l | L ]? | [ l | L ] [ u | U ]?)
+enum numType
+{
+    INT,
+    UINT,
+    LONG,
+    ULONG
+};
+
 /*
  * CExp ::= LogicalExp ([ < | <= | >= | > | == | != ] LogicalExp)?
  * LogicalExp ::= OrExp ((&& | ||) OrExp)*
@@ -111,12 +120,14 @@ public:
     ~IdentifierExp();
 };
 
+// TODO: ask professor...
 // * Factor ::= Num
 class NumberExp : public Exp
 {
 public:
     int value;
-    NumberExp(int v);
+    numType type;
+    NumberExp(int v, numType t); // ! I need to recognize somehow the type for the codegen...
     int accept(Visitor *visitor);
     ~NumberExp();
 };
