@@ -1,10 +1,13 @@
 fun main() {
-    val threshold: Long = 1000000000L   
-    val value: Long = 1500000000L       
+    val threshold: Long    
+    val value: Long        
+
+    threshold = 1000000000L
+    value = 1500000000L
 
     if (value > threshold) {
-        println("Exceeded threshold")
+        println(true)
     } else {
-        println("Below threshold")
+        println(false)
     }
 }

@@ -1,5 +1,6 @@
 fun sumRange(from: Int, to: Int): Int {
-    var total: Int = 0
+    var total: Int
+    total = 0
     for (i in from..to) {
         total = total + i
     }
@@ -7,8 +8,12 @@ fun sumRange(from: Int, to: Int): Int {
 }
 
 fun main() {
-    val start: Int = 1
-    val end: Int = 10
-    val result: Int = sumRange(start, end)   
+    val start: Int 
+    val end: Int 
+    val result: Int 
+    
+    start = 1
+    end = 10
+    result= sumRange(start, end)   
     println(result)                          
 }

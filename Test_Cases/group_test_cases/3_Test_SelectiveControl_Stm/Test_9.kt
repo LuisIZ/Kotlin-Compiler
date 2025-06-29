@@ -1,8 +1,9 @@
 fun main() {
-    val num: Int = 42
+    val num: Int 
+    num = 42
     if (num.toLong() > 30L) {
-        println("Long conversion works")
+        println(true)
     } else {
-        println("Conversion failed")
+        println(false)
     }
 }

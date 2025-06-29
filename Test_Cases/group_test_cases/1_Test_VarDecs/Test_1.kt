@@ -1,15 +1,12 @@
-fun showProfile(name: String, age: Int, active: Boolean) {
-    print("Name: "); println(name)
-    print("Age: "); println(age)
-    print("Active?: "); println(active)
+fun showProfile(age: Int, active: Boolean) {
+    println(age)
+    println(active)
 }
 
 fun main() {
-    val name: String
     val age: Int 
-    val active: Boolean   
-    name = "Marco"                                        
+    val active: Boolean                                           
     age = 35
     active = true
-    print(showProfile(name, age, active))
+    print(showProfile(age, active))
 }

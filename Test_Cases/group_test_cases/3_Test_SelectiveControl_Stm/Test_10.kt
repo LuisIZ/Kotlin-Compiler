@@ -1,14 +1,17 @@
 fun main() {
-    val a: Int  = 7
-    val b: UInt = 1000000u     
+    val a: Int  
+    val b: UInt 
+    
+    a = 7
+    b = 1000000u     
 
     if (a < 5) {
-        println("Case 1")
+        println(true)
     } else {
         if (b > 500000u) {      
-            println("Case 2")
+            println(true)
         } else {
-            println("Default")
+            println(false)
         }
     }
 }

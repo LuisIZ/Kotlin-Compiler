@@ -7,5 +7,5 @@ fun printMax(a: UInt, b: UInt) {
 }
 
 fun main() {
-    printMax(42U, 100U)
+    println(printMax(42U, 100U))
 }

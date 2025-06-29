@@ -250,6 +250,25 @@ VarDec *Parser::parseVarDec()
         vars.push_back(varName);
 
         // * ... [(; VarDec_2)*] ...
+        /*
+        TODO: ask professor because I have problem with cases like var x:Int; var y: Int
+        ! it seems that the semicolon is not well parse but I am not sure if that is a problem of the vardec or also of the stmtlist
+
+        TODO: ask professor becuause cases like the following are not parsed well (my compiler has a limitation of how to handle the semicolons that are optional in Kotlin)
+        val a: Int
+        val b: Int
+        val c: Int
+        val t: Int
+
+        a = 3
+        b = 8
+        c = 2
+        t = 8
+
+        val result: Boolean
+
+        ! I obtain Error: expected a '}' after function body -> it seems that I have to declare the variables as separated as possible from the definitions...
+        */
         while (match(Token::SEMICOLON))
         {
             if (match(Token::VAR) || match(Token::VAL))

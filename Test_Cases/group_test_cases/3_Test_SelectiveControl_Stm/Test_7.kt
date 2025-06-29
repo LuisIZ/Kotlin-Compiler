@@ -1,9 +1,13 @@
 fun main() {
-    val a: Int = 5
-    val b: Int = 10
+    val a: Int 
+    val b: Int 
+
+    a = 5
+    b = 10
+
     if (a > b) {
-        println("A is larger")
+        println(true)
     } else {
-        println("B is larger")
+        println(false)
     }
 }

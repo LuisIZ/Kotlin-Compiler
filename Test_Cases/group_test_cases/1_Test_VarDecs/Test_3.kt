@@ -3,8 +3,11 @@ fun isEven(n: Int): Boolean {
 }
 
 fun main() {
-    var number: Int;           
-    number = 10;
-    val result: Boolean = isEven(number);  
-    print("Is "); print(number); print(" even?: "); println(result)
+    var number: Int           
+    val result: Boolean 
+    
+    number = 10
+    result = isEven(number)
+
+    println(result)
 }

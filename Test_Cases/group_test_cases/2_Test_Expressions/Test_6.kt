@@ -1,5 +1,6 @@
 fun pow(base: Int, exponent: Int): Int {
-    var result: Int = 1
+    var result: Int 
+    result = 1
     for (i in 1 .. exponent) {        
         result = result * base
     }
@@ -7,9 +8,13 @@ fun pow(base: Int, exponent: Int): Int {
 }
 
 fun main() {
-    val a: Int; val b: Int
-    a = 10; b = 3
+    val a: Int
+    val b: Int
+    val result: Int 
 
-    val result: Int = pow(a, b)
-    print(a); print("^"); print(b); print(" = "); println(result)
+    a = 10
+    b = 3
+    result = pow(a, b)
+
+    println(result)
 }
