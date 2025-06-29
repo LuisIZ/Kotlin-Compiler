@@ -88,7 +88,7 @@ public:
     */
     VarDec *parseVarDec();
 
-    // * StmList ::= Stm [(; Stm)*]
+    // * StmList ::= Stm [([;] Stm)*]
     StatementList *parseStatementList();
 
     /*

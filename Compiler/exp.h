@@ -120,9 +120,9 @@ public:
 class NumberExp : public Exp
 {
 public:
-    unsigned long long int value; // ! just to make sure if we operate with large numbers, we have space enough for them...
+    long long int value; // ! just to make sure if we operate with large numbers, we have space enough for them...
     numType type;
-    NumberExp(unsigned long long int v, numType t); // ! I need to recognize somehow the type for the codegen...
+    NumberExp(long long int v, numType t); // ! I need to recognize somehow the type for the codegen...
     int accept(Visitor *visitor);
     ~NumberExp();
 };
@@ -296,7 +296,7 @@ public:
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-// * StmList ::= Stm [(; Stm)*]
+// * StmList ::= Stm [([;] Stm)*]
 class StatementList
 {
 public:

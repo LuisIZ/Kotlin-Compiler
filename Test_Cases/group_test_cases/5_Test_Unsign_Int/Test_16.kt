@@ -1,6 +1,10 @@
 fun main() {
-    val a: UInt = 4000000000U
-    val b: UInt = 500000000U
-    val result = a - b 
+    val a: UInt 
+    val b: UInt 
+    val result: UInt
+     
+    a = 4000000000U
+    b = 500000000U
+    result = a - b 
     println(result)
 }

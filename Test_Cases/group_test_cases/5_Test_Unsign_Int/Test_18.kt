@@ -1,14 +1,15 @@
-// Bitwise AND with decimal UInt literals
 fun main() {
-    val flags: UInt = 44272u
+    val flags: UInt 
+    val mask:  UInt 
+    val masked: UInt
 
-    val mask:  UInt = 61680u
-
-    val masked: UInt = flags and mask
+    flags = 44272u
+    mask = 61680u
+    masked = flags and mask
 
     if (masked == 41200u) {
-        println("Bitmask applied correctly")
+        println(true)
     } else {
-        println("Error in bitwise operation")
+        println(false) 
     }
 }

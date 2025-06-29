@@ -3,10 +3,12 @@ fun isEven(n: UInt): Boolean {
 }
 
 fun main() {
-    val num: UInt = 4294967295U  
+    val num: UInt  
+    num = 4294967295U
+
     if (isEven(num)) {
-        println("Even")
+        println(true)
     } else {
-        println("Odd") 
+        println(false) 
     }
 }

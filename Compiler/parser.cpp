@@ -213,6 +213,10 @@ Body *Parser::parseBody()
 /*
  *  VarDec_1 ::= var id: Type [(; VarDec_2)*] | val id: Type [(; VarDec_2)*]
  *  VarDec_2 ::= var id: Type | val id: Type
+
+ ! This vardec only handles declarations, not definition...
+ ! So, something like this var a: Int = 2 is not accepted
+ ! because vardec does not support assign operator (should be separated)
  */
 VarDec *Parser::parseVarDec()
 {
@@ -284,19 +288,19 @@ VarDec *Parser::parseVarDec()
     return vd;
 }
 
-// * StmList ::= Stm [(; Stm)*]
+// * StmList ::= Stm [([;] Stm)*]
 StatementList *Parser::parseStatementList()
 {
     StatementList *sl = new StatementList();
-    Stm *stmt = parseStatement(); // ! verify it is not null, after a ';' must be another stm
+    Stm *stmt = parseStatement();
 
     if (stmt)
     {
         sl->add(stmt);
     }
 
-    // * ... [(; Stm)*] ...
-    while (true) // ! multiple stmts without semicolon
+    // * ... [([;] Stm)*] ...
+    while (true) // ! multiple stmts with optional semicolon
     {
 
         // ! optional to consume this token...
@@ -859,7 +863,7 @@ Exp *Parser::parseFactor()
     if (match(Token::NUM))
     {
         const string &lex = previous->text;
-        unsigned long long int val = stoull(lex.c_str(), nullptr, 10); // ! make sure we can operate large numbers thar are unsign long long int
+        long long int val = stoll(lex.c_str(), nullptr, 10); // ! make sure we can operate large numbers thar are unsign long long int
 
         // ! read suffix
         bool seenU = false, seenL = false;
@@ -877,12 +881,12 @@ Exp *Parser::parseFactor()
         }
 
         // ! check cases like ul, lu, LU and UL
-        if (!seenL && (check(Token::SUFFIX_l)) || check(Token::SUFFIX_L))
+        if (!seenL && (check(Token::SUFFIX_l) || check(Token::SUFFIX_L)))
         {
             seenL = true;
             advance();
         }
-        if (!seenU && (check(Token::SUFFIX_u)) || check(Token::SUFFIX_U))
+        if (!seenU && (check(Token::SUFFIX_u) || check(Token::SUFFIX_U)))
         {
             seenU = true;
             advance();
@@ -1013,6 +1017,10 @@ Exp *Parser::parseFactor()
         }
 
         // * Factor ::= id.("toInt" | "toLong" | "toUInt" | "toULong")()
+        /*
+        ! remember: an id before applying the function, our compiler does not parse somethig like (-1).toUInt()
+        ! if I wanted that, instead of id, I should create a new rule X that can be a num, bool, cexp, etc.
+        */
         else if (match(Token::POINT))
         {
             ConversionTypeFun convType;

@@ -16,7 +16,7 @@ Type ::= id
 VarDec_2 ::= var id: Type
            | val id: Type
 
-StmList ::= Stm [(; Stm)*]
+StmList ::= Stm [([;] Stm)*]
 Stm ::= id AugAssign CExp
       | id = CExp
       | println(CExp)

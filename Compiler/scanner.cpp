@@ -12,46 +12,76 @@ bool is_white_space(char c)
     return c == ' ' || c == '\n' || c == '\r' || c == '\t';
 }
 
+// ! we do not deal with comments... so when testing we have to erase the comments
+
 Token *Scanner::nextToken()
 {
     Token *token;
+
+    // ! if still pending tokens, pop them from queue...
+    if (!pending.empty())
+    {
+        Token *t = pending.front();
+        pending.pop();
+        return t;
+    }
+
+    // * ignore whitespaces and identify end of program
     while (current < input.length() && is_white_space(input[current]))
         current++;
     if (current >= input.length())
         return new Token(Token::END);
+
     char c = input[current];
     first = current;
 
     // new scanning tokens in Num
     if (isdigit(c))
     {
-        current++;
+        // ! consume digits
         while (current < input.length() && isdigit(input[current]))
             current++;
 
-        char nextChar = current < input.length() ? input[current] : '\0';
-        char nextNextChar = current + 1 < input.length() ? input[current + 1] : '\0';
+        // ! define token digit and save it in the queue (is pending)
+        pending.push(new Token(Token::NUM, input, first, current-first));
 
-        token = new Token(Token::NUM, input, first, current - first);
+        // ! lets check the existence of suffix...
+        bool seenU = false, seenL = false;
 
-        if (nextChar == 'u' || nextChar == 'U')
+        // ! only suffix u or U exist?
+        if (current < input.length() && (input[current] == 'u' || input[current] == 'U'))
         {
-            token = new Token(nextChar == 'u' ? Token::SUFFIX_u : Token::SUFFIX_U);
+            seenU = true;
+            pending.push(new Token((input[current] == 'u') ? Token::SUFFIX_u : Token::SUFFIX_U, input, current, 1));
             current++;
         }
-        else if (nextChar == 'l' || nextChar == 'L')
+
+        // ! only suffix l or L exist?
+        if (current < input.length() && (input[current] == 'l' || input[current] == 'L'))
         {
-            token = new Token(nextChar == 'l' ? Token::SUFFIX_l : Token::SUFFIX_L);
+            seenU = true;
+            pending.push(new Token((input[current] == 'l') ? Token::SUFFIX_l : Token::SUFFIX_L, input, current, 1));
             current++;
         }
-        
-        if ((nextChar == 'u' || nextChar == 'U') && (nextNextChar == 'l' || nextNextChar == 'L'))
+
+        // ! a combination of the suffix exist (ul or lu)?
+        if (!seenL && current < input.length() &&
+            (input[current] == 'l' || input[current] == 'L'))
         {
-            token = new Token(nextChar == 'u' ? Token::SUFFIX_u : Token::SUFFIX_U);
-            current++;
-            token = new Token(nextNextChar == 'l' ? Token::SUFFIX_l : Token::SUFFIX_L);
+            pending.push(new Token((input[current] == 'l') ? Token::SUFFIX_l : Token::SUFFIX_L, input, current, 1));
             current++;
         }
+        if (!seenU && current < input.length() &&
+            (input[current] == 'u' || input[current] == 'U'))
+        {
+            pending.push(new Token((input[current] == 'u') ? Token::SUFFIX_u : Token::SUFFIX_U, input, current, 1));
+            current++;
+        }
+
+        // ! scanner return tokens based on the order of queue
+        Token* t = pending.front();
+        pending.pop();
+        return t;
     }
 
     else if (c == '"')

@@ -204,7 +204,7 @@ IdentifierExp::IdentifierExp(const std::string &n) : name(n) {}
 IdentifierExp::~IdentifierExp() {}
 
 // * Factor ::= Num
-NumberExp::NumberExp(unsigned long long int v, numType t) : value(v), type(t) {} // ! I need to recognize somehow the type for the codegen...
+NumberExp::NumberExp(long long int v, numType t) : value(v), type(t) {} // ! I need to recognize somehow the type for the codegen...
 NumberExp::~NumberExp() {}
 
 // * Factor ::= Bool
@@ -301,7 +301,7 @@ WhileStatement::~WhileStatement()
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-// * StmList ::= Stm [(; Stm)*]
+// * StmList ::= Stm [([;] Stm)*]
 StatementList::StatementList() : stms() {}
 void StatementList::add(Stm *s)
 {
