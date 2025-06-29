@@ -7,7 +7,6 @@
 class Parser
 {
 private:
-
     // * scanner stuff for checking tokens
     Scanner *scanner;
     Token *current, *previous;
@@ -15,9 +14,6 @@ private:
     bool check(Token::Type ttype);
     bool advance();
     bool isAtEnd();
-
-    // ? It is a list of stms just to keep record of each stm created in the program, like a memory?
-    list<Stm *> parseStmList();
 
     // * CExp ::= LogicalExp ([ < | <= | >= | > | == | != ] LogicalExp)?
     Exp *parseCExp();
@@ -43,23 +39,25 @@ private:
     // * Term ::= Factor (( * | / | % ) Factor)*
     Exp *parseTerm();
 
-    // ? PrefixOp
+    // ! PrefixOp is going to be implemented in another rule in the parser
 
+    // ! string implementation is just a formality but we are not going to use it... however, the compiler can scan and parse strings
     /*
     * Factor ::= id
     *     | Num
     *     | Bool
+    !     | StringExp
     *     | (CExp)
     *     | PrefixOp Factor
     *     | id([ArgList])
-    *     | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+    *     | id.("toInt" | "toLong" | "toUInt" | "toULong")()
     */
     Exp *parseFactor();
-    
-    // ? ArgList
-    // ? Bool
-    // ? Num
-    // ? Digit
+
+    // ! ArgList is going to be implemented in another rule in the parser
+    // ! Bool is going to be implemented in another rule in the parser
+    // ! Num is going to be implemented in another rule in the parser
+    // ! Digit is going to be implemented in another rule in the parser
 
 public:
     Parser(Scanner *scanner);
@@ -73,7 +71,7 @@ public:
     // * FunDecList ::= (FunDec)+
     FunDecList *parseFunDecList();
 
-    // ? why the rules after this line should be public instead of private...?
+    // ! this are public because is more like the structure of the program... want to have access to the structure but respect the operations and result (private attributes...)
 
     // * FunDec ::= fun id ([ParamDecList]) [: Type] {Body}
     FunDec *parseFunDec();
@@ -81,11 +79,11 @@ public:
     // * Body ::= VarDecList StmList
     Body *parseBody();
 
-    // ? ParamDecList
+    // ! ParamDecList is going to be implemented in another rule in the parser
 
     /*
        * VarDec_1
-       ? Type
+       ! Type is going to be dealed in the visitors...
        * VarDec_2
     */
     VarDec *parseVarDec();
@@ -94,18 +92,18 @@ public:
     StatementList *parseStatementList();
 
     /*
-    * Stm ::= id AugAssign CExp
-    *   | id = CExp
-    *   | println(CExp)
-    *   | print(CExp)
-    *   | if (CExp) {Body} [else {Body}]
-    *   | for (id in CExp..CExp [step CExp]) {Body}
-    *   | while (CExp) {Body}
-    *   | return CExp
-    */
+     * Stm ::= id AugAssign CExp
+     *   | id = CExp
+     *   | println(CExp)
+     *   | print(CExp)
+     *   | if (CExp) {Body} [else {Body}]
+     *   | for (id in CExp..CExp [step CExp]) {Body}
+     *   | while (CExp) {Body}
+     *   | return CExp
+     */
     Stm *parseStatement();
 
-    // ? AugAssign
+    // ! AugAssign is going to be implemented in another rule in the parser
 };
 
 #endif

@@ -55,7 +55,7 @@ Factor ::= id
          | (CExp)
          | PrefixOp Factor
          | id([ArgList])
-         | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+         | id.("toInt" | "toLong" | "toUInt" | "toULong")()
 
 ArgList ::= CExp (, CExp)*
 
@@ -76,4 +76,4 @@ Digit ::= 0
         | 9
 ```
 
-Note: id in rule Type could be "Byte", "Short", "Int", "Long", "UByte", "UShort", "UInt" and "ULong" (at least for this project).
+Note: id in rule Type could be "Int", "Long", "UInt" and "ULong" (at least for this project).

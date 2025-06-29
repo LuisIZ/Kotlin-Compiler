@@ -173,14 +173,6 @@ Token *Scanner::nextToken()
         }
 
         // new scanning tokens for rule Factor
-        else if (word == "toByte")
-        {
-            token = new Token(Token::TO_BYTE, word, 0, word.length());
-        }
-        else if (word == "toShort")
-        {
-            token = new Token(Token::TO_SHORT, word, 0, word.length());
-        }
         else if (word == "toInt")
         {
             token = new Token(Token::TO_INT, word, 0, word.length());
@@ -188,14 +180,6 @@ Token *Scanner::nextToken()
         else if (word == "toLong")
         {
             token = new Token(Token::TO_LONG, word, 0, word.length());
-        }
-        else if (word == "toUByte")
-        {
-            token = new Token(Token::TO_U_BYTE, word, 0, word.length());
-        }
-        else if (word == "toUShort")
-        {
-            token = new Token(Token::TO_U_SHORT, word, 0, word.length());
         }
         else if (word == "toUInt")
         {

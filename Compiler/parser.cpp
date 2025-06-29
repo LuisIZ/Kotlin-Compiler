@@ -298,15 +298,24 @@ StatementList *Parser::parseStatementList()
     // * ... [(; Stm)*] ...
     while (true) // ! multiple stmts without semicolon
     {
-        // ! verify if a stmt is beginning...
-        if (current->type == Token::ID || current->type == Token::PRINTLN ||
-            current->type == Token::PRINT || current->type == Token::IF ||
-            current->type == Token::FOR || current->type == Token::WHILE ||
-            current->type == Token::RETURN)
-        {
-            // ! optional to consume this token...
-            match(Token::SEMICOLON);
 
+        // ! optional to consume this token...
+        if (match(Token::SEMICOLON))
+        {
+            stmt = parseStatement();
+            if (!stmt)
+            {
+                break;
+            }
+            sl->add(stmt);
+        }
+
+        // ! verify if a stmt is beginning...
+        else if (current->type == Token::ID || current->type == Token::PRINTLN ||
+                 current->type == Token::PRINT || current->type == Token::IF ||
+                 current->type == Token::FOR || current->type == Token::WHILE ||
+                 current->type == Token::RETURN)
+        {
             stmt = parseStatement();
             if (!stmt)
             {
@@ -828,33 +837,29 @@ Exp *Parser::parseTerm()
  *      | (CExp)
  *      | PrefixOp Factor
  *      | id([ArgList])
- *      | id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+ *      | id.("toInt" | "toLong"| "toUInt" | "toULong")()
  */
 Exp *Parser::parseFactor()
 {
     // * Factor ::= Num
     /*
-    TODO: ask professor...
+    * Num ::= Digit+ ([ u | U ] [ l | L ]? | [ l | L ] [ u | U ]?)
 
-    ? How to implement the following rules? Are these necessary?
-
-    ? Num ::= Digit+ ([ u | U ] [ l | L ]? | [ l | L ] [ u | U ]?)
-
-    ? Digit ::= 0
-    ?       | 1
-    ?       | 2
-    ?       | 3
-    ?       | 4
-    ?       | 5
-    ?       | 6
-    ?       | 7
-    ?       | 8
-    ?       | 9
+    * Digit ::= 0
+    *       | 1
+    *       | 2
+    *       | 3
+    *       | 4
+    *       | 5
+    *       | 6
+    *       | 7
+    *       | 8
+    *       | 9
     */
     if (match(Token::NUM))
     {
         const string &lex = previous->text;
-        int val = stoi(lex.c_str(), nullptr, 10);
+        unsigned long long int val = stoull(lex.c_str(), nullptr, 10); // ! make sure we can operate large numbers thar are unsign long long int
 
         // ! read suffix
         bool seenU = false, seenL = false;
@@ -918,6 +923,12 @@ Exp *Parser::parseFactor()
     else if (match(Token::FALSE))
     {
         return new BoolExp(false);
+    }
+
+    // ! Factor ::= StringExp -> scan and parse string but not going to use it... maybe change it in the future...
+    else if (match(Token::STRING))
+    {
+        return new StringExp(previous->text);
     }
 
     // * Factor ::= (CExp)
@@ -1001,29 +1012,17 @@ Exp *Parser::parseFactor()
             return call;
         }
 
-        // * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+        // * Factor ::= id.("toInt" | "toLong" | "toUInt" | "toULong")()
         else if (match(Token::POINT))
         {
             ConversionTypeFun convType;
             switch (current->type)
             {
-            case Token::TO_BYTE:
-                convType = TO_BYTE_FUN;
-                break;
-            case Token::TO_SHORT:
-                convType = TO_SHORT_FUN;
-                break;
             case Token::TO_INT:
                 convType = TO_INT_FUN;
                 break;
             case Token::TO_LONG:
                 convType = TO_LONG_FUN;
-                break;
-            case Token::TO_U_BYTE:
-                convType = TO_U_BYTE_FUN;
-                break;
-            case Token::TO_U_SHORT:
-                convType = TO_U_SHORT_FUN;
                 break;
             case Token::TO_U_INT:
                 convType = TO_U_INT_FUN;

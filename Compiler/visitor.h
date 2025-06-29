@@ -15,7 +15,7 @@ class BinaryExp;
 class PrefixExp;
 class FCallExp;
 class ConversionExp;
-class StringExp; // TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
+class StringExp; // ! we are not going to use it really...
 
 ///////////////////////////////////////////////////////////////////////////////////
 
@@ -48,7 +48,7 @@ public:
     virtual int visit(PrefixExp *exp) = 0;
     virtual int visit(FCallExp *exp) = 0;
     virtual int visit(ConversionExp *exp) = 0;
-    virtual int visit(StringExp *exp) = 0; // TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
+    virtual int visit(StringExp *exp) = 0; // ! we are not going to use it really...
 
     ///////////////////////////////////////////////////////////////////////////////////
 
@@ -75,7 +75,7 @@ public:
 class GenCodeVisitor : public Visitor
 {
 private:
-    std::ostream &out; // ? Is this just for print the gencode, I do not understand
+    std::ostream &out;
 
 public:
     GenCodeVisitor(std::ostream &out) : out(out) {}
@@ -86,10 +86,9 @@ public:
 
     int offset = -8;
 
-    // ? Should we do the same for ForStatement
     int countLabel = 0; // ! for nested WhileStatement and IfStatement
 
-    bool enviromentFunction = false; // ? I do not understand what it is used for...
+    bool enviromentFunction = false;
     string funtionName;
 
     ///////////////////////////////////////////////////////////////////////////////////
@@ -101,7 +100,7 @@ public:
     int visit(PrefixExp *exp) override;
     int visit(FCallExp *exp) override;
     int visit(ConversionExp *exp) override;
-    int visit(StringExp *exp) override; // TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
+    int visit(StringExp *exp) override; // ! we are not going to use it really...
 
     ///////////////////////////////////////////////////////////////////////////////////
 

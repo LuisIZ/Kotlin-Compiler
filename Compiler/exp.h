@@ -67,15 +67,11 @@ enum AugmentedOp
     AA_MOD_OP
 };
 
-// * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+// * Factor ::= id.("toInt" | "toLong"| "toUInt" | "toULong")()
 enum ConversionTypeFun
 {
-    TO_BYTE_FUN,
-    TO_SHORT_FUN,
     TO_INT_FUN,
     TO_LONG_FUN,
-    TO_U_BYTE_FUN,
-    TO_U_SHORT_FUN,
     TO_U_INT_FUN,
     TO_U_LONG_FUN
 };
@@ -120,14 +116,13 @@ public:
     ~IdentifierExp();
 };
 
-// TODO: ask professor...
 // * Factor ::= Num
 class NumberExp : public Exp
 {
 public:
-    int value;
+    unsigned long long int value; // ! just to make sure if we operate with large numbers, we have space enough for them...
     numType type;
-    NumberExp(int v, numType t); // ! I need to recognize somehow the type for the codegen...
+    NumberExp(unsigned long long int v, numType t); // ! I need to recognize somehow the type for the codegen...
     int accept(Visitor *visitor);
     ~NumberExp();
 };
@@ -189,9 +184,7 @@ public:
 };
 
 ///////////////////////////////////////////////////////////////////////////////////
-
-// TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
-class StringExp : public Exp
+class StringExp : public Exp // ! we do not define the visitor (just a formality: scan and parse string but no codegen at least for this project)
 {
 public:
     string value;
@@ -273,7 +266,7 @@ public:
 
     Exp *start;
     Exp *end;
-    Exp *step;
+    Exp *step; // ! is optional
 
     ForStatement(string id, Body *b, Exp *s, Exp *e, Exp *st = nullptr);
     int accept(Visitor *visitor);
@@ -295,7 +288,7 @@ public:
 class ReturnStatement : public Stm
 {
 public:
-    Exp *e; // ? Should I change it to nullptr because a function could return nothing
+    Exp *e; // ! return is going to return always a CExp based on the grammar...
     ReturnStatement() {};
     ~ReturnStatement() {};
     int accept(Visitor *visitor);

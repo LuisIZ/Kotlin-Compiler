@@ -173,26 +173,14 @@ string Exp::augOpToString(AugmentedOp op)
 string Exp::convFunToString(ConversionTypeFun op)
 {
     string c;
-    // * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+    // * Factor ::= id.("toInt" | "toLong" | "toUInt" | "toULong")()
     switch (op)
     {
-    case TO_BYTE_FUN:
-        c = "toByte";
-        break;
-    case TO_SHORT_FUN:
-        c = "toShort";
-        break;
     case TO_INT_FUN:
         c = "toInt";
         break;
     case TO_LONG_FUN:
         c = "toLong";
-        break;
-    case TO_U_BYTE_FUN:
-        c = "toUByte";
-        break;
-    case TO_U_SHORT_FUN:
-        c = "toUShort";
         break;
     case TO_U_INT_FUN:
         c = "toUInt";
@@ -215,9 +203,8 @@ string Exp::convFunToString(ConversionTypeFun op)
 IdentifierExp::IdentifierExp(const std::string &n) : name(n) {}
 IdentifierExp::~IdentifierExp() {}
 
-// TODO: ask professor...
 // * Factor ::= Num
-NumberExp::NumberExp(int v, numType t) : value(v), type(t) {} // ! I need to recognize somehow the type for the codegen...
+NumberExp::NumberExp(unsigned long long int v, numType t) : value(v), type(t) {} // ! I need to recognize somehow the type for the codegen...
 NumberExp::~NumberExp() {}
 
 // * Factor ::= Bool
@@ -247,7 +234,7 @@ ConversionExp::~ConversionExp() {}
 
 ///////////////////////////////////////////////////////////////////////////////////
 
-// TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
+// ! just a formality, scan and parse string but we are not going to use it really... maybe delete it in the future...
 StringExp::StringExp(string v) : value(v) {}
 StringExp::~StringExp() {}
 

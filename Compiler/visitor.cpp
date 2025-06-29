@@ -43,7 +43,7 @@ int ConversionExp::accept(Visitor *visitor)
 
 int StringExp::accept(Visitor *visitor)
 {
-    return visitor->visit(this); // TODO: ask professor about the class StringExp (our grammar does not have strings in Factor)
+    return visitor->visit(this); // ! we are not going to use it really...
 }
 
 ///////////////////////////////////////////////////////////////////////////////////
@@ -141,4 +141,3 @@ int Program::accept(Visitor *visitor)
 }
 
 // new -------------------------------- GenCode Visitors ------------------------------
-

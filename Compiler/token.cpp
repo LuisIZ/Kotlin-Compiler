@@ -12,7 +12,7 @@ Token::Token(Type type, const string &source, int first, int last) : type(type)
     text = source.substr(first, last);
 }
 
-// ** This messages are for the scanner, when the scanner scans the input, is going to print the message TOKEN(...). If there is unknown token, the default state activates in the switch case 
+// ** This messages are for the scanner, when the scanner scans the input, is going to print the message TOKEN(...). If there is unknown token, the default state activates in the switch case
 std::ostream &operator<<(std::ostream &outs, const Token &tok)
 {
     switch (tok.type)
@@ -107,7 +107,7 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         break;
     case Token::RETURN:
         outs << "TOKEN(RETURN)";
-        break;    
+        break;
 
     // new tokens for rule CExp
     case Token::LT:
@@ -200,23 +200,11 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
     case Token::POINT:
         outs << "TOKEN(POINT)";
         break;
-    case Token::TO_BYTE:
-        outs << "TOKEN(TO_BYTE)";
-        break;
-    case Token::TO_SHORT:
-        outs << "TOKEN(TO_SHORT)";
-        break;
     case Token::TO_INT:
         outs << "TOKEN(TO_INT)";
         break;
     case Token::TO_LONG:
         outs << "TOKEN(TO_LONG)";
-        break;
-    case Token::TO_U_BYTE:
-        outs << "TOKEN(TO_U_BYTE)";
-        break;
-    case Token::TO_U_SHORT:
-        outs << "TOKEN(TO_U_SHORT)";
         break;
     case Token::TO_U_INT:
         outs << "TOKEN(TO_U_INT)";
@@ -263,7 +251,7 @@ std::ostream &operator<<(std::ostream &outs, const Token &tok)
         outs << "TOKEN(STRING)";
         break;
 
-        default:
+    default:
         outs << "TOKEN(UNKNOWN)";
         break;
     }

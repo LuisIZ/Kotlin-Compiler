@@ -95,12 +95,8 @@ public:
 
         // new tokens for rule Factor
         POINT,      // .
-        TO_BYTE,    // .toByte
-        TO_SHORT,   // .toShort
         TO_INT,     // .toInt
         TO_LONG,    // .toLong
-        TO_U_BYTE,  // .toUByte
-        TO_U_SHORT, // .toUShort
         TO_U_INT,   // .toUInt
         TO_U_LONG,  // .toULong
 

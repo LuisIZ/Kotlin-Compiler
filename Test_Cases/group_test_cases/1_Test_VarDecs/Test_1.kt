@@ -5,9 +5,11 @@ fun showProfile(name: String, age: Int, active: Boolean) {
 }
 
 fun main() {
-    val name: String; val age: Int; val active: Boolean;   
-    name = "Marco";                                        
-    age = 35;
-    active = true;
-    showProfile(name, age, active)
+    val name: String
+    val age: Int 
+    val active: Boolean   
+    name = "Marco"                                        
+    age = 35
+    active = true
+    print(showProfile(name, age, active))
 }
