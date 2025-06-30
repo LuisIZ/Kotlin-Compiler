@@ -406,13 +406,14 @@ int GenCodeVisitor::visit(BoolExp *exp)
 void GenCodeVisitor::visit(ReturnStatement *stm)
 {
     stm->e->accept(this);
-    out << " jmp .end_" << funtionName << endl;
+    out << " jmp .end_" << functionName << endl;
 }
 
 // * FunDec ::= fun id ([ParamDecList]) [: Type] {Body}
 void GenCodeVisitor::visit(FunDec *f)
 {
     enviromentFunction = true;
+    functionName = f->id; // ! update function name
     memory.clear();
     offset = -8;
 

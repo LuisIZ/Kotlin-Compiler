@@ -89,7 +89,7 @@ public:
     int countLabel = 0; // ! for nested WhileStatement and IfStatement
 
     bool enviromentFunction = false;
-    string funtionName;
+    string functionName;
 
     ///////////////////////////////////////////////////////////////////////////////////
 

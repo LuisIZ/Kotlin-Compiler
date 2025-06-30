@@ -44,6 +44,11 @@ int main(int argc, const char *argv[])
         Program *program = parser.parseProgram();
         cout << "Parser works!!! :)" << endl
              << endl;
+        cout << "Starting Visitor:" << endl;
+        GenCodeVisitor input_code(std::cout);
+        cout << "CODE: " << endl;
+        input_code.generate(program);
+        cout << endl;
         delete program;
     }
     catch (const exception &e)
