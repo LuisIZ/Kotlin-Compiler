@@ -1,6 +1,7 @@
 #include <iostream>
 #include <stdexcept>
 #include <string>
+#include <climits>
 #include "token.h"
 #include "scanner.h"
 #include "exp.h"
@@ -913,10 +914,20 @@ Exp *Parser::parseFactor()
 
         numType type;
 
+        // TODO: ask professor because test case 1 in which z = 100000 is assigned as int (eax) instead of long (rax)
         // ! classify the type
         if (!seenU && !seenL)
         {
-            type = INT;
+            // ! if we do not have the type as suffix, we check the value... however this value can change in the checktype
+            // ! technically this should not be done in parser because parser check only the structure but we could say it is an optimization xD
+            if (val > INT32_MAX || val < INT32_MIN) // ? should the value be less than int32_min
+            {
+                type = LONG;
+            }
+            else
+            {
+                type = INT;
+            }
         }
         else if (seenU && !seenL)
         {

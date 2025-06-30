@@ -172,7 +172,7 @@ public:
     int accept(Visitor *visitor);
 };
 
-// * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+// * Factor ::= id.("toInt" | "toLong" | "toUInt" | "toULong")()
 class ConversionExp : public Exp
 {
 public:

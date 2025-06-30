@@ -228,7 +228,7 @@ PrefixExp::~PrefixExp()
 
 // * Factor ::= id([ArgList]) is already implemented in exp.h in FCallExp
 
-// * Factor ::= id.("toByte" | "toShort" | "toInt" | "toLong" | "toUByte" | "toUShort" | "toUInt" | "toULong")()
+// * Factor ::= id.("toInt" | "toLong" | "toUInt" | "toULong")()
 ConversionExp::ConversionExp(string id, ConversionTypeFun convType) : id(id), convType(convType) {}
 ConversionExp::~ConversionExp() {}
 
